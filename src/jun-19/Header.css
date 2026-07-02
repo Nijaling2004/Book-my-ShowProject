@@ -1,0 +1,48 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 18px 60px;
+
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+}
+
+.logo span {
+  color: #ff375f;
+}
+
+.header nav {
+  display: flex;
+  gap: 30px;
+}
+
+.header a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.header a:hover {
+  color: #ff375f;
+}
