@@ -14,14 +14,16 @@ import Basic from "./jun-29/Basic";
 import OnlyOnce from "./jun-29/OnlyOnce";
 import Dependency from "./jun-29/Dependency";
 import Wall from "./jun-29/Wall";
+import RestaurantCard from "./jul-6/condition/RestaurantCard";
+import GetApiData from "./jun-29/GetApiData";
 
 function App() {
-  const sayHello = () => {
-    console.log("I have clicked a button");
-  };
   return (
     <div>
-      <Routing />
+      <RestaurantCard name="Pizza Palace" rating={4.7} isOpen={true} />
+
+      <RestaurantCard name="Burger House" rating={4.3} isOpen={false} />
+      <GetApiData />
     </div>
   );
 }

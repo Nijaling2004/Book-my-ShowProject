@@ -1,23 +1,69 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./MovieDetails.css";
 import { movieData } from "./movie";
 import Header from "./Header";
-import { useEffect } from "react";
+import Cast from "./Cast";
+import Review from "./Review";
+import SeatBooking from "./SeatBooking";
+import CinemaHallSelection from "./CinemaHallSelection";
+import Footer from "./Footer";
+import RecommendedMovies from "./RecommendedMovies";
 
 function MovieDetails() {
   const { id } = useParams();
 
+  const [showCinemaSelection, setShowCinemaSelection] = useState(false);
+  const [selectedShow, setSelectedShow] = useState(null);
+  const [playTrailer, setPlayTrailer] = useState(false);
+
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo(0, 0);
+    setPlayTrailer(false);
   }, [id]);
 
   const movie = movieData.find((item) => item.id === Number(id));
 
   if (!movie) {
     return <h1 className="not-found">Movie not found</h1>;
+  }
+
+  function handleBookTickets() {
+    setPlayTrailer(false);
+    setShowCinemaSelection(true);
+
+    setTimeout(() => {
+      document
+        .querySelector(".cinema-section")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }
+
+  function handleWatchTrailer() {
+    setPlayTrailer(true);
+
+    setTimeout(() => {
+      document
+        .querySelector(".leo-gallery-section")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+  }
+
+  function handleShowSelect(show) {
+    setSelectedShow(show);
+
+    setTimeout(() => {
+      document
+        .querySelector(".seat-booking-section")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }
+
+  function handleCloseCinema() {
+    setShowCinemaSelection(false);
+    setSelectedShow(null);
+    setPlayTrailer(false);
+    window.scrollTo(0, 0);
   }
 
   return (
@@ -40,8 +86,9 @@ function MovieDetails() {
             </div>
 
             <p className="description">
-              {movie.description ||
-                "Experience this blockbuster movie on the big screen with powerful action, emotional storytelling, amazing visuals, and unforgettable performances."}
+              Experience this blockbuster movie on the big screen with
+              breathtaking visuals, powerful performances, emotional
+              storytelling and spectacular action sequences.
             </p>
 
             <div className="movie-info-grid">
@@ -77,20 +124,64 @@ function MovieDetails() {
             </div>
 
             <div className="button-group">
-              <button className="book-btn">{movie.buttonText}</button>
-              <button className="trailer-btn">▶ Watch Trailer</button>
+              <button className="book-btn" onClick={handleBookTickets}>
+                {movie.buttonText}
+              </button>
+
+              <button className="trailer-btn" onClick={handleWatchTrailer}>
+                ▶ Watch Trailer
+              </button>
             </div>
           </div>
         </div>
 
-        <section className="leo-gallery-section">
-          <h2>{movie.title} Visual Gallery</h2>
+        {showCinemaSelection && (
+          <CinemaHallSelection
+            movie={movie}
+            selectedShow={selectedShow}
+            onShowSelect={handleShowSelect}
+            onClose={handleCloseCinema}
+          />
+        )}
 
-          <div className="glass-image-box">
-            <img src={movie.galleryImage} alt={`${movie.title} gallery`} />
+        {selectedShow && (
+          <SeatBooking movie={movie} selectedShow={selectedShow} />
+        )}
+
+        <Cast movie={movie} />
+
+        <Review movie={movie} />
+
+        <section className="leo-gallery-section">
+          <h2>{movie.title} Visuals</h2>
+
+          <div className="cinema-screen-wrapper">
+            <div
+              className={`glass-image-box trailer-hover-box cinema-screen ${
+                playTrailer ? "play-trailer" : ""
+              }`}
+            >
+              <img
+                className="gallery-image"
+                src={movie.galleryImage}
+                alt={`${movie.title} Gallery`}
+              />
+
+              <iframe
+                className="trailer-video"
+                src={movie.trailerUrl}
+                title={`${movie.title} Trailer`}
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
         </section>
+
+        <RecommendedMovies movies={movieData} currentMovieId={movie.id} />
       </div>
+
+      <Footer />
     </>
   );
 }
