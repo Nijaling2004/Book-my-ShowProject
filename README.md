@@ -154,7 +154,7 @@ After completing this project, I gained practical experience in:
 
 ---
 
-# 🚀 Future Enhancements
+#  Future Enhancements
 
 * User Authentication
 * Seat Selection
