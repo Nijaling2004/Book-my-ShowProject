@@ -16,14 +16,14 @@ import Dependency from "./jun-29/Dependency";
 import Wall from "./jun-29/Wall";
 import RestaurantCard from "./jul-6/condition/RestaurantCard";
 import GetApiData from "./jun-29/GetApiData";
+import PostDataApi from "./jun-29/PostDataApi";
+import Mounting from "./jul-7/lifecycle/Mounting";
+import MountUpdateUnmount from "./jul-7/lifecycle/MountUpdateUnmount";
 
 function App() {
   return (
     <div>
-      <RestaurantCard name="Pizza Palace" rating={4.7} isOpen={true} />
-
-      <RestaurantCard name="Burger House" rating={4.3} isOpen={false} />
-      <GetApiData />
+     <MountUpdateUnmount/>
     </div>
   );
 }
